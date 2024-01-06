@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+    .container {
+        max-width: 700px;
+        width: 700px;
+        background-color: #fff;
+        padding: 25px 30px;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .container .title {
+        font-size: 25px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .container .title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 30px;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+
+    .content form .user-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px 0 12px 0;
+    }
+
+    form .user-details .input-box {
+        margin-bottom: 15px;
+    }
+
+    form .input-box span.details {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .user-details .input-box input {
+        height: 45px;
+        width: 100%;
+        outline: none;
+        font-size: 16px;
+        border-radius: 5px;
+        padding-left: 15px;
+        border: 1px solid #ccc;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .user-details .input-box input:focus,
+    .user-details .input-box input:valid {
+        border-color: #9b59b6;
+    }
+
+    form .gender-details .gender-title {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    form .category {
+        display: flex;
+        width: 80%;
+        margin: 14px 0;
+        justify-content: space-between;
+    }
+
+    form .category label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    form .button {
+        height: 45px;
+        margin: 35px 0
+    }
+
+    form .button input {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+
+    form .button input:hover {
+        background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+    }
+
+    @media(max-width: 584px) {
+        .container {
+            max-width: 100%;
+        }
+
+        .content form .user-details {
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        .user-details::-webkit-scrollbar {
+            width: 5px;
+        }
+    }
+
+    @media(max-width: 459px) {
+        .container .content .category {
+            flex-direction: column;
+        }
+    }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<body class=" bg-[#001] w-[100%] h-[100vh]  flex justify-center items-center">
+    <div class=" container w-[70%] h-[auto] bg-[#fff]">
+        <div class="title">Event Form</div>
+        <hr>
+        <div class="content">
+            <form id="FormDatafun">
+                <div class=" w-[100%] h-[auto]">
+                    <div className="w-[150px] h-[130px] bg-[#000]">
+                        <span className="details">Name</span>
+                        <input type="text" name='name' placeholder="Enter your  name" required />
+                    </div>
+                    
+                </div>
+                <div class=" w-[100%] h-[auto] flex justify-center items-center">
+
+                    <button type="submit" style="background: linear-gradient(#71b7e6,#005,#003);"
+                        class="text-[#fff] w-[100%] h-[30px] p-[20px] flex justify-center items-center rounded-[4px]">Feedback</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const FormDatafun = document.querySelector('#FormDatafun');
+    const data = document.querySelector('#feedback')
+    const namedata = document.querySelector('#nameuser')
+    FormDatafun.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const feedbackdata = data.value;
+        const namefeedbackdata = namedata.value;
+        try {
+            const res = await fetch('/users/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ feedbackdata, namefeedbackdata })
+            })
+            if (res.status === 200) {
+                window.alert('Feedback Send🥰🥰')
+                data.value = "";
+                namedata.value = "";
+            }
+            if (res.status === 400) {
+                window.alert('All field require 🥰🥰')
+                data.value = "";
+                namedata.value = "";
+            }
+
+
+        } catch (error) {
+            window.alert(' Some techniacl issue reload the page 🥰🥰')
+
+
+        }
+    })
+</script>
+
+</html>
